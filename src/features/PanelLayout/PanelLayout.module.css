@@ -1,0 +1,206 @@
+/* 1. ANA GRID AYARLARI */
+.mainGrid {
+  display: grid;
+  grid-template-rows: 70px 1fr 40px;
+  height: 100vh;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Kapanma Durumları */
+.mainGrid.hideHeader { grid-template-rows: 0px 1fr 40px; }
+.mainGrid.hideFooter { grid-template-rows: 70px 1fr 0px; }
+.mainGrid.hideHeader.hideFooter { grid-template-rows: 0px 1fr 0px; }
+
+/* 2. İÇ GRID (Orta Alan) */
+.middleGrid {
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  grid-template-rows: 1fr;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* Kapanma Durumları */
+.middleGrid.hideLeft { grid-template-columns: 0px 1fr 250px; }
+.middleGrid.hideRight { grid-template-columns: 250px 1fr 0px; }
+.middleGrid.hideLeft.hideRight { grid-template-columns: 0px 1fr 0px; }
+
+/* Kutuların Ortak Özellikleri */
+.headerBox, .footerBox, .leftPanel, .rightPanel, .contentArea {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Renkler */
+.footerBox { 
+  background-color: var(--gray-1); 
+  border-top: 1px solid var(--gray-4);
+}
+.leftPanel { 
+  background-color: var(--gray-3); 
+  border-right: 1px solid var(--gray-4);
+}
+.rightPanel { 
+  background-color: var(--gray-3); 
+  border-left: 1px solid var(--gray-4);
+}
+.contentArea { 
+  background-color: var(--gray-2); 
+}
+
+/* Yardımcı Buton ve Kontrol Stilleri */
+.toggleBtn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  margin-left: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.toggleBtn:hover { background: rgba(255, 255, 255, 0.4); }
+.closeInside { position: absolute; top: 15px; right: 15px; margin: 0px; }
+.controlsCenter { display: flex; flex-direction: column; gap: 15px; }
+.btnGroup { display: flex; gap: 10px; justify-content: center; }
+.btnGroup button { padding: 8px 12px; cursor: pointer; font-weight: bold; }
+
+/* Sürükleme Çizgisi (Resize Handle) */
+.resizer {
+  width: 6px;
+  cursor: col-resize;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+/* Fare üzerine geldiğinde veya sürüklerken çizgi hafifçe belli olsun */
+.resizer:hover, .resizerActive {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ÖNEMLİ: Sürükleme esnasında titremeyi önlemek için animasyonu sıfırlayan sınıf */
+.noTransition {
+  transition: none !important;
+}
+/* Sağ Panel için Özel Çizgi Konumu */
+.resizerLeft {
+  width: 6px;
+  cursor: col-resize;
+  position: absolute;
+  top: 0;
+  left: 0; /* Sağ panelin sol kenarında dursun */
+  bottom: 0;
+  z-index: 10;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.resizerLeft:hover, .resizerLeftActive {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+/* Header içi esnek düzen */
+.headerBox { 
+  background-color: var(--gray-2); 
+  border-bottom: 1px solid var(--gray-4);
+}
+
+
+
+/* Özel Renkli Butonlar */
+.masterOpenBtn { background-color: #3b82f6 !important; }
+.masterOpenBtn:hover { background-color: #2563eb !important; }
+.masterCloseBtn { background-color: #ef4444 !important; }
+.masterCloseBtn:hover { background-color: #dc2626 !important; }
+
+/* Boş kalan tam ekran alanı tasarımı */
+.emptyWorkplace {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+.divider {
+  color: var(--gray-a7);
+  margin: 0 4px;
+}
+.hidden {
+  display: none !important;
+}
+.miniKumandaCustom {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 4px 8px;
+  border-radius: var(--radius-3); /* Köşe yuvarlaklığı da sağ taraftaki panelden gelsin! */
+  border: 1px solid var(--gray-a4);
+}
+.dikeyAcmaButonu {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color:var(--gray-a7); /* Temana uygun hafif gri bir renk, Radix gray'e benzer */
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Oku dikeyde ortalar */
+  justify-content: center; /* Oku yatayda ortalar */
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  padding: 0;
+}
+
+.dikeyAcmaButonu:hover {
+  background-color: #e5e7eb; /* Üzerine gelince biraz koyulaşır */
+  color: #000;
+}
+/* Kapalıyken tüm alanı kaplayan yatay buton */
+.yatayAcmaButonu {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #f1f3f5;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 0;
+  transition: background-color 0.2s;
+}
+
+.yatayAcmaButonu:hover {
+  background-color: #e5e7eb;
+  color: #000;
+}
+
+/* Footer'ın üst kenarındaki sürükleme alanı */
+.resizerTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px; /* Fareyle tutulabilecek hassas alan */
+  cursor: ns-resize; /* Aşağı-yukarı çift yönlü ok imleci */
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+.resizerTop:hover {
+  background-color: #3b82f6; /* Üzerine gelince mavi bir çizgi belirir */
+}
